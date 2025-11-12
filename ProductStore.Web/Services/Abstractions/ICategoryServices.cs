@@ -1,4 +1,5 @@
 ﻿using ProductStore.Web.Core;
+using ProductStore.Web.Core.Pagination;
 using ProductStore.Web.DTOs;
 
 namespace ProductStore.Web.Services.Abstractions
@@ -10,5 +11,6 @@ namespace ProductStore.Web.Services.Abstractions
         public Task<Response<CategoryDTO>> EditAsync(CategoryDTO dto);
         public Task<Response<List<CategoryDTO>>> GetListAsync();
         public Task<Response<CategoryDTO>> GetOneAsync(Guid id);
+        public Task<Response<PaginationResponse<CategoryDTO>>> GetPaginatedListAsync(PaginationRequest request);
     }
 }

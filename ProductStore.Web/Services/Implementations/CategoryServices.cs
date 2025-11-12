@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using ProductStore.Web.Core;
+using ProductStore.Web.Core.Pagination;
 using ProductStore.Web.Data;
 using ProductStore.Web.Data.Entities;
 using ProductStore.Web.DTOs;
@@ -11,12 +11,11 @@ namespace ProductStore.Web.Services.Implementations
     public class CategoryServices : CustomQueryableOperationsService, ICategoryServices
     {
         private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly DataContext _mapper;
 
         public CategoryServices(DataContext context, IMapper mapper) : base(context, mapper)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Response<CategoryDTO>> CreateAsync(CategoryDTO dto)
@@ -42,6 +41,18 @@ namespace ProductStore.Web.Services.Implementations
         public async Task<Response<CategoryDTO>> GetOneAsync(Guid id)
         {
             return await GetOneAsync<Category, CategoryDTO>(id);
+        }
+        public async Task<Response<PaginationResponse<CategoryDTO>>> GetPaginatedListAsync(PaginationRequest request)
+        {
+            IQueryable<Category> query = _context.Category.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(request.Filter))
+            {
+                query = query.Where(c => c.Name.ToLower().Contains(request.Filter.ToLower())
+                                         || c.Description.ToLower().Contains(request.Filter.ToLower()));
+            }
+
+            return await GetPaginationAsync<Category, CategoryDTO>(request, query);
         }
     }
 }

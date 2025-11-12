@@ -9,6 +9,7 @@ namespace ProductStore.Web.Core
         public AutoMapperProfiles()
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Product, ProductDTO>().ReverseMap();
         }
     }
 }

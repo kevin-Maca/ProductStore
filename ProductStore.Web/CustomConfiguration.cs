@@ -3,6 +3,8 @@ using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ProductStore.Web.Data;
 using ProductStore.Web.Data.Seeders;
+using ProductStore.Web.Helpers.Abstractions;
+using ProductStore.Web.Helpers.Implementations;
 using ProductStore.Web.Services.Abstractions;
 using ProductStore.Web.Services.Implementations;
 
@@ -12,6 +14,7 @@ namespace ProductStore.Web
     {
         public static WebApplicationBuilder AddCustomConfiguration(this WebApplicationBuilder builder)
         {
+            string? cnn = builder.Configuration.GetConnectionString("MyConnection");
             // Data Context
             builder.Services.AddDbContext<DataContext>(options =>
             {
@@ -38,6 +41,11 @@ namespace ProductStore.Web
         private static void AddServices(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+            builder.Services.AddScoped<IProductServices, ProductServices>();
+
+            builder.Services.AddTransient<SeedDb>();
+
+            builder.Services.AddTransient<ICombosHelper, CombosHelper>();
             builder.Services.AddTransient<SeedDb>();
         }
 

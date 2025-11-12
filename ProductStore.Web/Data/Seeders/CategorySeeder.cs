@@ -24,7 +24,7 @@ namespace ProductStore.Web.Data.Seeders
 
             foreach (Category category in categories)
             {
-                bool exists = await _context.Category.AnyAsync(c => c.Id == category.Id);
+                bool exists = await _context.Category.AnyAsync(c => c.Name == category.Name);
 
                 if (!exists)
                 {

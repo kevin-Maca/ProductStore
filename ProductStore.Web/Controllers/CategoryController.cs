@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using ProductStore.Web.Core;
+using ProductStore.Web.Core.Pagination;
 using ProductStore.Web.DTOs;
 using ProductStore.Web.Services.Abstractions;
 
@@ -18,9 +19,9 @@ namespace ProductStore.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] PaginationRequest request)
         {
-            Response<List<CategoryDTO>> response = await _categoryService.GetListAsync();
+            Response<PaginationResponse<CategoryDTO>> response = await _categoryService.GetPaginatedListAsync(request);
 
             if (!response.IsSuccess)
             {
