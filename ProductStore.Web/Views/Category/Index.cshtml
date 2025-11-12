@@ -1,0 +1,65 @@
+﻿@using ProductStore.Web.DTOs
+@model List<CategoryDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Inicio</a></li>
+            <li class="breadcrumb-item active">Categorías</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="row">
+                <h3 class="m-0 font-weight-bold text-primary col-md-11">Categorías</h3>
+                <div class="col-md-1">
+                    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body mt-3">
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (CategoryDTO item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
+
+                                <form asp-action="Delete" asp-route-Id="@item.Id" style="display: contents;">
+                                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</section>
