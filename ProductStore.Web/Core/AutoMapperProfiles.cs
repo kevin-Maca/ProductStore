@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ProductStore.Web.Data.Entities;
 using ProductStore.Web.DTOs;
-using static System.Collections.Specialized.BitVector32;
 
 namespace ProductStore.Web.Core
 {
@@ -8,7 +8,7 @@ namespace ProductStore.Web.Core
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Section, CategoryDTO>().ReverseMap();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
         }
     }
 }

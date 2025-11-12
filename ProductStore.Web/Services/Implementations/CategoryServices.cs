@@ -8,12 +8,12 @@ using ProductStore.Web.Services.Abstractions;
 
 namespace ProductStore.Web.Services.Implementations
 {
-    public class CategoryServices : ICategoryServices
+    public class CategoryServices : CustomQueryableOperationsService, ICategoryServices
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public CategoryServices(DataContext context, IMapper mapper)
+        public CategoryServices(DataContext context, IMapper mapper) : base(context, mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -21,38 +21,27 @@ namespace ProductStore.Web.Services.Implementations
 
         public async Task<Response<CategoryDTO>> CreateAsync(CategoryDTO dto)
         {
-            try
-            {
-                Category category = _mapper.Map<Category>(dto);
+            return await CreateAsync<Category, CategoryDTO>(dto);
+        }
 
-                Guid id = Guid.NewGuid();
-                category.Id = id;
-                await _context.Category.AddAsync(category);
-                await _context.SaveChangesAsync();
+        public async Task<Response<object>> DeleteAsync(Guid id)
+        {
+            return await DeleteAsync<Category>(id);
+        }
 
-                dto.Id = id;
-                return Response<CategoryDTO>.Success(dto, "Categoría creada con éxito");
-            }
-            catch (Exception ex)
-            {
-                return Response<CategoryDTO>.Failure(ex);
-            }
+        public async Task<Response<CategoryDTO>> EditAsync(CategoryDTO dto)
+        {
+            return await EditAsync<Category, CategoryDTO>(dto, dto.Id);
         }
 
         public async Task<Response<List<CategoryDTO>>> GetListAsync()
         {
-            try
-            {
-                List<Category> sections = await _context.Category.ToListAsync();
+            return await GetCompleteListAsync<Category, CategoryDTO>();
+        }
 
-                List<CategoryDTO> list = _mapper.Map<List<CategoryDTO>>(sections);
-
-                return Response<List<CategoryDTO>>.Success(list);
-            }
-            catch (Exception ex)
-            {
-                return Response<List<CategoryDTO>>.Failure(ex);
-            }
+        public async Task<Response<CategoryDTO>> GetOneAsync(Guid id)
+        {
+            return await GetOneAsync<Category, CategoryDTO>(id);
         }
     }
 }
