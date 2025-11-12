@@ -2,6 +2,7 @@
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ProductStore.Web.Data;
+using ProductStore.Web.Data.Seeders;
 using ProductStore.Web.Services.Abstractions;
 using ProductStore.Web.Services.Implementations;
 
@@ -37,13 +38,23 @@ namespace ProductStore.Web
         private static void AddServices(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+            builder.Services.AddTransient<SeedDb>();
         }
 
         public static WebApplication AddCustomWebApplicationConfiguration(this WebApplication app)
         {
             app.UseNotyf();
+            SeedData(app);
 
             return app;
+        }
+        private static void SeedData(WebApplication app)
+        {
+            IServiceScopeFactory scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+            using IServiceScope scope = scopeFactory.CreateScope();
+            SeedDb service = scope.ServiceProvider.GetService<SeedDb>();
+            service.SeedAsync().Wait();
         }
     }
 }
