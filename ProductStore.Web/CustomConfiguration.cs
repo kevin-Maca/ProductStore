@@ -1,7 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProductStore.Web.Data;
+using ProductStore.Web.Data.Entities;
 using ProductStore.Web.Data.Seeders;
 using ProductStore.Web.Helpers.Abstractions;
 using ProductStore.Web.Helpers.Implementations;
@@ -32,16 +34,44 @@ namespace ProductStore.Web
                 config.Position = NotyfPosition.BottomRight;
             });
 
+            //Identity and Access Management
+            AddIAM(builder);
+
             // Services
             AddServices(builder);
 
             return builder;
         }
 
+        private static void AddIAM(WebApplicationBuilder builder)
+        {
+            builder.Services.AddIdentity<User, IdentityRole>(conf =>
+            {
+                conf.User.RequireUniqueEmail = true;
+                conf.Password.RequireDigit = false;
+                conf.Password.RequiredUniqueChars = 0;
+                conf.Password.RequireLowercase = false;
+                conf.Password.RequireUppercase = false;
+                conf.Password.RequireNonAlphanumeric = false;
+                conf.Password.RequiredLength = 4;
+            }).AddEntityFrameworkStores<DataContext>()
+              .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(conf =>
+            {
+                conf.Cookie.Name = "Auth";
+                conf.ExpireTimeSpan = TimeSpan.FromDays(100);
+                conf.LoginPath = "/Account/Login";
+                conf.AccessDeniedPath = "/Error/403";
+            });
+        }
+
         private static void AddServices(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IProductServices, ProductServices>();
+            builder.Services.AddTransient<ICombosHelper, CombosHelper>();
+            builder.Services.AddScoped<IUsersServices, UsersServices>();
 
             builder.Services.AddTransient<SeedDb>();
 

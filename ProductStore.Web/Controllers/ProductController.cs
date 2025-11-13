@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductStore.Web.Core;
 using ProductStore.Web.Core.Pagination;
@@ -8,6 +9,7 @@ using ProductStore.Web.Services.Abstractions;
 
 namespace ProductStore.Web.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly INotyfService _notyfService;
