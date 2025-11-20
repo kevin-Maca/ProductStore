@@ -13,13 +13,13 @@ namespace ProductStore.Web.DTOs
         [MaxLength(64, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres")]
         [Display(Name = "Nombre del producto")]
         [Required]
-        public string Nombre { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
 
         [Display(Name = "Precio")]
         [Column(TypeName = "decimal(10,2)")]
         [Range(0, 9999999.99, ErrorMessage = "El campo {0} debe estar entre {1} y {2}.")]
-        public decimal Precio { get; set; }
+        public decimal Price { get; set; }
 
         [Display(Name = "Stock disponible")]
         public int Stock { get; set; }

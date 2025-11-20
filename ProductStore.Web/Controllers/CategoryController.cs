@@ -8,7 +8,7 @@ using ProductStore.Web.Services.Abstractions;
 
 namespace ProductStore.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryServices _categoryService;

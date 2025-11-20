@@ -12,13 +12,7 @@
 
     @await Html.PartialAsync("_Styles");
 
-    <!-- =======================================================
-    * Template Name: NiceAdmin
-    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-    * Updated: Mar 17 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body>

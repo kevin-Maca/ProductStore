@@ -9,7 +9,7 @@ using ProductStore.Web.Services.Abstractions;
 
 namespace ProductStore.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProductController : Controller
     {
         private readonly INotyfService _notyfService;
