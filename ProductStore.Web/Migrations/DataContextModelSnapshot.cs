@@ -213,6 +213,9 @@ namespace ProductStore.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -224,12 +227,9 @@ namespace ProductStore.Web.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("categoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("categoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
@@ -251,6 +251,21 @@ namespace ProductStore.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductStoreRole");
+                });
+
+            modelBuilder.Entity("ProductStore.Web.Data.Entities.RoleCategory", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductStoreRoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CategoryId", "ProductStoreRoleId");
+
+                    b.HasIndex("ProductStoreRoleId");
+
+                    b.ToTable("RoleCategories");
                 });
 
             modelBuilder.Entity("ProductStore.Web.Data.Entities.RolePermission", b =>
@@ -414,11 +429,30 @@ namespace ProductStore.Web.Migrations
                 {
                     b.HasOne("ProductStore.Web.Data.Entities.Category", "Category")
                         .WithMany("Product")
-                        .HasForeignKey("categoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ProductStore.Web.Data.Entities.RoleCategory", b =>
+                {
+                    b.HasOne("ProductStore.Web.Data.Entities.Category", "Category")
+                        .WithMany("RoleCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProductStore.Web.Data.Entities.ProductStoreRole", "ProductStoreRole")
+                        .WithMany("RoleCategories")
+                        .HasForeignKey("ProductStoreRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("ProductStoreRole");
                 });
 
             modelBuilder.Entity("ProductStore.Web.Data.Entities.RolePermission", b =>
@@ -454,6 +488,8 @@ namespace ProductStore.Web.Migrations
             modelBuilder.Entity("ProductStore.Web.Data.Entities.Category", b =>
                 {
                     b.Navigation("Product");
+
+                    b.Navigation("RoleCategories");
                 });
 
             modelBuilder.Entity("ProductStore.Web.Data.Entities.Permission", b =>
@@ -463,6 +499,8 @@ namespace ProductStore.Web.Migrations
 
             modelBuilder.Entity("ProductStore.Web.Data.Entities.ProductStoreRole", b =>
                 {
+                    b.Navigation("RoleCategories");
+
                     b.Navigation("RolePermission");
                 });
 #pragma warning restore 612, 618

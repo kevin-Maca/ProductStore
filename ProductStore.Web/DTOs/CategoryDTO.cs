@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProductStore.Web.Core.Pagination;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProductStore.Web.DTOs
 {
@@ -14,5 +15,7 @@ namespace ProductStore.Web.DTOs
         [MaxLength(64, ErrorMessage = "El campo {0} debe tener máximo {1} carácteres")]
         [Display(Name = "Descripción")]
         public string? Description { get; set; }
+
+        public PaginationResponse<ProductDTO>? PaginatedProducts { get; set; }
     }
 }

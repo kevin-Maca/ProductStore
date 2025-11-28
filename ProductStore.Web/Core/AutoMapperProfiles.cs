@@ -10,6 +10,14 @@ namespace ProductStore.Web.Core
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<User, AccountUserDTO>().ReverseMap();
+            CreateMap<Permission, PermissionDTO>();
+            CreateMap<ProductStoreRole, ProductStoreRoleDTO>().ReverseMap();
+
+
+            CreateMap<User, UserDTO>();
+
+            CreateMap<UserDTO, User>().ForMember(user => user.UserName, config => config.MapFrom(dto => dto.Email));
         }
     }
 }

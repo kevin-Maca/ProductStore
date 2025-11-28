@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using ProductStore.Web.Data.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProductStore.Web.Data.Entities
 {
-    public class Permission
+    public class Permission : IId
     {
         [Key]
         public Guid Id { get; set; }

@@ -11,7 +11,6 @@ namespace ProductStore.Web.Services.Implementations
     public class CategoryServices : CustomQueryableOperationsService, ICategoryServices
     {
         private readonly DataContext _context;
-        private readonly DataContext _mapper;
 
         public CategoryServices(DataContext context, IMapper mapper) : base(context, mapper)
         {

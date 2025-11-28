@@ -1,26 +1,46 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProductStore.Web.Core;
+using ProductStore.Web.Core.Pagination;
+using ProductStore.Web.DTOs;
 using ProductStore.Web.Models;
+using ProductStore.Web.Services.Abstractions;
+using ProductStore.Web.Services.Implementations;
+using System.Diagnostics;
 
 namespace ProductStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeServices _homeServices;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeServices homeServices)
         {
-            _logger = logger;
+            _homeServices = homeServices;
         }
 
-        public IActionResult Index()
+            [Authorize]
+            [HttpGet]
+            public async Task<IActionResult> Index([FromQuery] PaginationRequest request)
+            {
+                Response<PaginationResponse<CategoryDTO>> response = await _homeServices.GetCategoryAsync(request);
+                return View(response.Result);
+            }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Category([FromRoute] Guid id, [FromQuery] PaginationRequest request)
         {
-            return View();
+            Response<CategoryDTO> response = await _homeServices.GetCategoryAsync(id, request);
+            return View(response.Result);
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Product([FromRoute] Guid id)
         {
-            return View();
+            Response<ProductDTO> response = await _homeServices.GetProductAsync(id);
+            return View(response.Result);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

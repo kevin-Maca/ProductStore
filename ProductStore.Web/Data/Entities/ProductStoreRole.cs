@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProductStore.Web.Data.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProductStore.Web.Data.Entities
 {
-    public class ProductStoreRole
+    public class ProductStoreRole : IId
     {
         [Key]
         public Guid Id { get; set; }
@@ -12,5 +13,6 @@ namespace ProductStore.Web.Data.Entities
         public required string Name { get; set; }
 
         public ICollection<RolePermission>? RolePermission { get; set; }
+        public ICollection<RoleCategory>? RoleCategories { get; set; }
     }
 }

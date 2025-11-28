@@ -17,7 +17,7 @@ namespace ProductStore.Web.Data.Entities
 
         public int Stock { get; set; }
 
-        public required Guid categoryId { get; set; }
+        public required Guid CategoryId { get; set; }
 
         public Category? Category { get; set; }
     }

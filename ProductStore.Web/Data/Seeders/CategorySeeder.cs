@@ -17,9 +17,9 @@ namespace ProductStore.Web.Data.Seeders
         {
             List<Category> categories = new List<Category>()
             {
-                new Category { Id = Guid.NewGuid(), Name = "General", Description = "Información base de la compañia"},
-                new Category { Id = Guid.NewGuid(), Name = "Informática"},
-                new Category { Id = Guid.NewGuid(), Name = "Pentesting"}
+                new Category { Id = Guid.NewGuid(), Name = "Deportes", Description = "Todo lo relacionado con deportes"},
+                new Category { Id = Guid.NewGuid(), Name = "Informática", Description = "Todo lo relacionado con informática"},
+                new Category { Id = Guid.NewGuid(), Name = "Infantil", Description = "Juguetes y más"}
             };
 
             foreach (Category category in categories)

@@ -12,7 +12,7 @@ using ProductStore.Web.Data;
 namespace ProductStore.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251111234131_CategoryTable")]
+    [Migration("20251126203720_CategoryTable")]
     partial class CategoryTable
     {
         /// <inheritdoc />
@@ -32,11 +32,13 @@ namespace ProductStore.Web.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 

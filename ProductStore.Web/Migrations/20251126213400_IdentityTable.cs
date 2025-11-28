@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProductStore.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityTables : Migration
+    public partial class IdentityTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

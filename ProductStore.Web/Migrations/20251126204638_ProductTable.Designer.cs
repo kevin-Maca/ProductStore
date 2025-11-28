@@ -12,7 +12,7 @@ using ProductStore.Web.Data;
 namespace ProductStore.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251112050149_ProductTable")]
+    [Migration("20251126204638_ProductTable")]
     partial class ProductTable
     {
         /// <inheritdoc />
@@ -51,6 +51,9 @@ namespace ProductStore.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -62,12 +65,9 @@ namespace ProductStore.Web.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("categoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("categoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
@@ -75,17 +75,12 @@ namespace ProductStore.Web.Migrations
             modelBuilder.Entity("ProductStore.Web.Data.Entities.Product", b =>
                 {
                     b.HasOne("ProductStore.Web.Data.Entities.Category", "Category")
-                        .WithMany("Product")
-                        .HasForeignKey("categoryId")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("ProductStore.Web.Data.Entities.Category", b =>
-                {
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

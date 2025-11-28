@@ -16,5 +16,6 @@ namespace ProductStore.Web.Data.Entities
         public string? Description { get; set; }
 
         public List<Product>? Product { get; set; }
+        public ICollection<RoleCategory>? RoleCategories { get; set; }
     }
 }

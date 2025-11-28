@@ -5,5 +5,6 @@ namespace ProductStore.Web.Helpers.Abstractions
     public interface ICombosHelper
     {
         public Task<List<SelectListItem>> GetComboCategory();
+        Task<IEnumerable<SelectListItem>> GetComboRoles();
     }
 }

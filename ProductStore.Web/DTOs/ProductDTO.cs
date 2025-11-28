@@ -27,10 +27,10 @@ namespace ProductStore.Web.DTOs
 
         [Display(Name = "Categoría")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        public Guid categoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public List<SelectListItem>? Categories { get; set; }
     }
 
-    
+
 }

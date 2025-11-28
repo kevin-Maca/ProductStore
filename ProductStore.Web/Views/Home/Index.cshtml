@@ -1,8 +1,69 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using ProductStore.Web.DTOs
+@model PaginationResponse<CategoryDTO>
+
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Inicio</li>
+        </ol>
+    </nav>
 </div>
+
+<section class="section dashboard">
+
+    <div class="row">
+
+        <form class="" asp-action="Dashboard" method="GET">
+            <input type="hidden" name="Page" value="@Model.CurrentPage" />
+
+            <div class="row mt-3">
+                <div class="col-md-auto">
+
+                    <select name="RecordsPerPage" class="form-select border-0 small" asp-for="RecordsPerPage">
+                        <option value="2" selected="@(Model.RecordsPerPage == 2)">2</option>
+                        <option value="10" selected="@(Model.RecordsPerPage == 10)">10</option>
+                        <option value="15" selected="@(Model.RecordsPerPage == 15)">15</option>
+                        <option value="30" selected="@(Model.RecordsPerPage == 30)">30</option>
+                        <option value="50" selected="@(Model.RecordsPerPage == 50)">50</option>
+                    </select>
+
+                </div>
+
+                <div class="col-md-10">
+                    <div class="input-group-mb-3">
+                        <input type="text"
+                               class="form-control border-0 small"
+                               placeholder="Buscar..."
+                               aria-label="search"
+                               asp-for="Filter">
+                    </div>
+                </div>
+
+                <div class="col-md-auto">
+
+                    <div class="input-group-mb-3">
+                        <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+        <div class="row mt-3">
+            @foreach (CategoryDTO item in Model.List)
+            {
+                <div class="col-md-5 m-2">
+                    <a asp-action="Category" asp-route-id="@item.Id" class="btn btn-outline-primary form-control">@item.Name</a>
+                </div>
+            }
+        </div>
+
+        @await Html.PartialAsync("~/Views/Shared/_PaginationComponent.cshtml", Model)
+
+    </div>
+</section>

@@ -17,6 +17,7 @@ namespace ProductStore.Web.Data.Seeders
         public async Task SeedAsync()
         {
             await new CategorySeeder(_context).SeedAsync();
+            await new ProductSeeder(_context).SeedAsync();
             await new PermissionSeeder(_context).SeedAsync();
             await new UserRolesSeeder(_context, _usersServices).SeedAsync();
         }

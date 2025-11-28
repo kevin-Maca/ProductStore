@@ -16,6 +16,7 @@ namespace ProductStore.Web.Data
         public DbSet<Permission> Permission { get; set; }
         public DbSet<ProductStoreRole> ProductStoreRole { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
+        public DbSet<RoleCategory> RoleCategories { get; set; }
         public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -39,7 +40,19 @@ namespace ProductStore.Web.Data
             builder.Entity<RolePermission>().HasOne(rp => rp.Permission)
                                             .WithMany(p => p.RolePermissions)
                                             .HasForeignKey(rp => rp.PermissionId);
+
+            // Role Categories
+            builder.Entity<RoleCategory>().HasKey(rc => new { rc.CategoryId, rc.ProductStoreRoleId });
+
+            builder.Entity<RoleCategory>().HasOne(rc => rc.ProductStoreRole)
+                                            .WithMany(r => r.RoleCategories)
+                                            .HasForeignKey(rc => rc.ProductStoreRoleId);
+
+            builder.Entity<RoleCategory>().HasOne(rc => rc.Category)
+                                            .WithMany(c => c.RoleCategories)
+                                            .HasForeignKey(rc => rc.CategoryId);
         }
+        
 
         private void ConfigureIndexes(ModelBuilder builder)
         {

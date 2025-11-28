@@ -1,26 +1,50 @@
-﻿<!-- ======= Sidebar ======= -->
+﻿@inject ProductStore.Web.Services.Abstractions.IUsersServices _usersServices
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <<a class="nav-link " asp-controller="Home" asp-action="Index">
+            <a class="nav-link" asp-controller="Home" asp-action="Index">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="Category" asp-action="Index">
-                <i class="bi bi-book"></i> <span>Categorías</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="Product" asp-action="Index">
-                <i class="bi bi-book"></i> <span>Productos</span>
-            </a>
-        </li>
+        @if (await _usersServices.CurrentUserIsAuthorizedAsync("showCategory", "Category"))
+        {
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-controller="Category" asp-action="Index">
+                    <i class="bi bi-book"></i> <span>Categorías</span>
+                </a>
+            </li>
+        }
+        @if (await _usersServices.CurrentUserIsAuthorizedAsync("showProduct", "Product"))
+        {
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-controller="Product" asp-action="Index">
+                    <i class="bi bi-file-earmark-post"></i> <span>Productos</span>
+                </a>
+            </li>
+        }
+
+        @if (await _usersServices.CurrentUserIsAuthorizedAsync("showUsers", "Usuarios"))
+        {
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-controller="Users" asp-action="Index">
+                    <i class="bi bi-person"></i> <span>Usuarios</span>
+                </a>
+            </li>
+        }
+
+
+        @if (await _usersServices.CurrentUserIsAuthorizedAsync("showRoles", "Roles"))
+        {
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-controller="Roles" asp-action="Index">
+                    <i class="bi bi-lock"></i> <span>Roles</span>
+                </a>
+            </li>
+        }
 
     </ul>
-    
 </aside>

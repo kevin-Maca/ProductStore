@@ -12,7 +12,6 @@ namespace ProductStore.Web.Services.Implementations
     public class ProductServices : CustomQueryableOperationsService, IProductServices
     {
         private readonly DataContext _context;
-        private readonly DataContext _mapper;
 
         public ProductServices(DataContext context, IMapper mapper) : base(context, mapper)
         {
@@ -46,14 +45,16 @@ namespace ProductStore.Web.Services.Implementations
                                                    {
                                                        Id = p.Id,
                                                        Name = p.Name,
-
+                                                       Price = p.Price,
+                                                       Stock = p.Stock,
+                                                      
                                                        Category = new Category
                                                        {
                                                            Id = p.Category.Id,
                                                            Name = p.Category.Name
                                                        },
 
-                                                       categoryId = p.categoryId
+                                                       CategoryId = p.CategoryId
                                                    })
                                                    .AsQueryable();
 

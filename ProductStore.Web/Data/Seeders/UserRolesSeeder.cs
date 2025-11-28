@@ -34,7 +34,7 @@ namespace ProductStore.Web.Data.Seeders
         private async Task CheckUsersAsync()
         {
             // Admin
-            User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "kmacamonsalve@gmail.com");
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "kevin@maca");
 
             if (user is null)
             {
@@ -42,11 +42,11 @@ namespace ProductStore.Web.Data.Seeders
 
                 user = new User
                 {
-                    Email = "manuel@yopmail.com",
-                    FirstName = "Manuel",
-                    LastName = "Domínguez",
-                    PhoneNumber = "3000000000",
-                    UserName = "manuel@yopmail.com",
+                    Email = "kevin@maca",
+                    FirstName = "Kevin",
+                    LastName = "Maca",
+                    PhoneNumber = "3025429388",
+                    UserName = "kevin@maca",
                     Document = "1111",
                     ProductStoreRoleId = adminRole!.Id
                 };
@@ -57,8 +57,8 @@ namespace ProductStore.Web.Data.Seeders
                 await _usersServices.ConfirmUserAsync(user, token);
             }
 
-            // Content namager
-            user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "lilianahr091@hotmail.com");
+            // manager
+            user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "lili@hincapie");
 
             if (user is null)
             {
@@ -66,11 +66,11 @@ namespace ProductStore.Web.Data.Seeders
 
                 user = new User
                 {
-                    Email = "anad@yopmail.com",
-                    FirstName = "Ana",
-                    LastName = "Doe",
-                    PhoneNumber = "3100000000",
-                    UserName = "anad@yopmail.com",
+                    Email = "lili@hincapie",
+                    FirstName = "Liliana",
+                    LastName = "Hincapié",
+                    PhoneNumber = "3137567049",
+                    UserName = "lili@hincapie",
                     Document = "222",
                     ProductStoreRoleId = contentManagerRole!.Id
                 };
@@ -82,7 +82,8 @@ namespace ProductStore.Web.Data.Seeders
             }
 
             // Basic
-            user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "kevin_vamosverde@hotmail.com");
+            const string email = "emmanuel@maca";
+            user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "emmanuel@maca");
 
             if (user is null)
             {
@@ -90,11 +91,11 @@ namespace ProductStore.Web.Data.Seeders
 
                 user = new User
                 {
-                    Email = "jhond@yopmail.com",
-                    FirstName = "Jhon",
-                    LastName = "Doe",
-                    PhoneNumber = "3200000000",
-                    UserName = "jhond@yopmail.com",
+                    Email = email,
+                    FirstName = "Emmanuel",
+                    LastName = "Maca",
+                    PhoneNumber = "3002568974",
+                    UserName = "emmanuel@maca",
                     Document = "333",
                     ProductStoreRoleId = basicRole!.Id
                 };
@@ -139,7 +140,7 @@ namespace ProductStore.Web.Data.Seeders
                 ProductStoreRole role = new ProductStoreRole { Id = Guid.NewGuid(), Name = CONTENT_MANAGER_ROLE_NAME };
                 await _context.ProductStoreRole.AddAsync(role);
 
-                List<Permission> permissions = await _context.Permission.Where(p => p.Module == "Categorías" || p.Module == "Productos")
+                List<Permission> permissions = await _context.Permission.Where(p => p.Module == "Category" || p.Module == "Product")
                                                                          .ToListAsync();
                 foreach (Permission permission in permissions)
                 {

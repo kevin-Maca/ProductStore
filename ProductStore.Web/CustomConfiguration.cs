@@ -1,7 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ProductStore.Web.Data;
 using ProductStore.Web.Data.Entities;
 using ProductStore.Web.Data.Seeders;
@@ -40,6 +42,8 @@ namespace ProductStore.Web
             // Services
             AddServices(builder);
 
+            builder.Services.AddHttpContextAccessor();
+
             return builder;
         }
 
@@ -64,16 +68,34 @@ namespace ProductStore.Web
                 conf.LoginPath = "/Account/Login";
                 conf.AccessDeniedPath = "/Error/403";
             });
+
+            builder.Services.AddAuthentication()
+                            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                            {
+                                options.TokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuer = true,
+                                    ValidateAudience = true,
+                                    ValidateLifetime = true,
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
+                                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                                    ClockSkew = TimeSpan.Zero
+                                };
+                            });
         }
 
         private static void AddServices(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IProductServices, ProductServices>();
-            builder.Services.AddTransient<ICombosHelper, CombosHelper>();
+            builder.Services.AddScoped<IHomeServices, HomeServices>();
+            builder.Services.AddScoped<IRolesServices, RolesServices>();
             builder.Services.AddScoped<IUsersServices, UsersServices>();
 
             builder.Services.AddTransient<SeedDb>();
+            builder.Services.AddTransient<ICombosHelper, CombosHelper>();
 
             builder.Services.AddTransient<ICombosHelper, CombosHelper>();
             builder.Services.AddTransient<SeedDb>();

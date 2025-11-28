@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductStore.Web.Core;
+using ProductStore.Web.Core.Attributes;
 using ProductStore.Web.Core.Pagination;
 using ProductStore.Web.DTOs;
 using ProductStore.Web.Services.Abstractions;
 
 namespace ProductStore.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryServices _categoryService;
@@ -21,6 +22,7 @@ namespace ProductStore.Web.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(permission: "showCategories", module: "Category")]
         public async Task<IActionResult> Index([FromQuery] PaginationRequest request)
         {
             Response<PaginationResponse<CategoryDTO>> response = await _categoryService.GetPaginatedListAsync(request);
@@ -35,12 +37,14 @@ namespace ProductStore.Web.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(permission: "createCategories", module: "Category")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: "createCategories", module: "Category")]
         public async Task<IActionResult> Create([FromForm] CategoryDTO dto)
         {
             if (!ModelState.IsValid)
@@ -61,6 +65,7 @@ namespace ProductStore.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
+        [CustomAuthorize(permission: "updateCategories", module: "Category")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
             Response<CategoryDTO> response = await _categoryService.GetOneAsync(id);
@@ -75,6 +80,7 @@ namespace ProductStore.Web.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: "updateCategories", module: "Category")]
         public async Task<IActionResult> Edit([FromForm] CategoryDTO dto)
         {
             if (!ModelState.IsValid)
@@ -96,6 +102,7 @@ namespace ProductStore.Web.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: "deleteCategories", module: "Category")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             Response<object> response = await _categoryService.DeleteAsync(id);
